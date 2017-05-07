@@ -21757,50 +21757,8 @@
 
 	const React = __webpack_require__(1);
 	const Header = __webpack_require__(183);
-	// const ButtonGroup = require('./buttongroup.jsx')
-	// <ButtonGroup startTimer = {this.startTimer} />
-
-	class Timer extends React.Component {
-		render() {
-			if (this.props.timeLeft == null || this.props.timeLeft == 0) {
-				return React.createElement('div', null);
-			}
-			return React.createElement(
-				'h1',
-				null,
-				'timeLeft:',
-				this.props.timeLeft
-			);
-		}
-	}
-
-	class Button extends React.Component {
-		constructor(props) {
-			super(props);
-			this.startTimer = this.startTimer.bind(this); // this.startTime: function(){}
-		}
-
-		startTimer(event) {
-			//[event: object]
-			// console.log("this.props.startTimer:" + this.props.time)
-			// this.props.starTimer is function(){}
-			return this.props.startTimer(this.props.time);
-		}
-
-		render() {
-			// console.log("this.startTimer:" + this.startTimer)
-			return (
-				// this.startTimer is function(){}
-				React.createElement(
-					'button',
-					{
-						type: 'button', onClick: this.startTimer },
-					this.props.time,
-					' seconds'
-				)
-			);
-		}
-	}
+	const Button = __webpack_require__(184);
+	const TimerLabel = __webpack_require__(185);
 
 	module.exports = class TimerCompoment extends React.Component {
 
@@ -21844,7 +21802,7 @@
 					React.createElement(Button, { time: '10', startTimer: this.startTimer }),
 					React.createElement(Button, { time: '15', startTimer: this.startTimer })
 				),
-				React.createElement(Timer, { timeLeft: this.state.timeLeft })
+				React.createElement(TimerLabel, { timeLeft: this.state.timeLeft })
 			);
 		}
 	};
@@ -21861,6 +21819,55 @@
 				'h2',
 				null,
 				this.props.title
+			);
+		}
+	};
+
+/***/ }),
+/* 184 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	const React = __webpack_require__(1);
+	const ReactDOM = __webpack_require__(36);
+
+	module.exports = class ButtonCompoment extends React.Component {
+		constructor(props) {
+			super(props);
+			this.startTimer = this.startTimer.bind(this);
+		}
+
+		startTimer(event) {
+			return this.props.startTimer(this.props.time);
+		}
+
+		render() {
+			return React.createElement(
+				'button',
+				{
+					type: 'button', onClick: this.startTimer },
+				this.props.time,
+				' seconds'
+			);
+		}
+	};
+
+/***/ }),
+/* 185 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	const React = __webpack_require__(1);
+	const ReactDOM = __webpack_require__(36);
+
+	module.exports = class TimerLabel extends React.Component {
+		render() {
+			if (this.props.timeLeft == null || this.props.timeLeft == 0) {
+				return React.createElement('div', null);
+			}
+			return React.createElement(
+				'h1',
+				null,
+				'timeLeft:',
+				this.props.timeLeft
 			);
 		}
 	};

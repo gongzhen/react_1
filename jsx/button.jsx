@@ -13,8 +13,9 @@ module.exports = class ButtonCompoment extends React.Component{
 
 	render() {
 		return(
-			<button type="button" onClick = {this.startTimer}>
-				{this.props.title} seconds
+			<button 
+			type="button" onClick = {this.startTimer}>
+				{this.props.time} seconds
 			</button>
 		)
 	}

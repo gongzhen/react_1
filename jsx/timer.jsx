@@ -1,40 +1,7 @@
 const React = require('react')
 const Header = require('./header.jsx')
-// const ButtonGroup = require('./buttongroup.jsx')
-// <ButtonGroup startTimer = {this.startTimer} />
-
-class Timer extends React.Component {
-	render(){
-		if(this.props.timeLeft == null || this.props.timeLeft == 0) {
-			return <div/>
-		}		
-		return <h1>timeLeft:{this.props.timeLeft}</h1>
-	}
-}
-
-class Button extends React.Component {
-	constructor(props) {
-		super(props);
-		this.startTimer = this.startTimer.bind(this) // this.startTime: function(){}
-	}
-
-	startTimer(event){ //[event: object]
-		// console.log("this.props.startTimer:" + this.props.time)
-		// this.props.starTimer is function(){}
-		return this.props.startTimer(this.props.time)
-	}
-
-	render(){
-		// console.log("this.startTimer:" + this.startTimer)
-		return( 
-			// this.startTimer is function(){}
-			<button  
-			type="button" onClick={this.startTimer}> 
-			{this.props.time} seconds 
-			</button>
-		)
-	}
-}
+const Button = require('./button.jsx')
+const TimerLabel = require('./timerlabel.jsx');
 
 module.exports = class TimerCompoment extends React.Component{
 
@@ -75,7 +42,7 @@ module.exports = class TimerCompoment extends React.Component{
 					<Button time = "10" startTimer = {this.startTimer} />
 					<Button time = "15" startTimer = {this.startTimer} />
 				</div>
-				<Timer timeLeft = {this.state.timeLeft} />
+				<TimerLabel timeLeft = {this.state.timeLeft} />
 			</div>
 		)
 	}
