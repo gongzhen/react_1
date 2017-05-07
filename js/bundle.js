@@ -46,12 +46,9 @@
 
 	const React = __webpack_require__(1);
 	const ReactDOM = __webpack_require__(36);
-	console.log("APP.jsx");
-	ReactDOM.render(React.createElement(
-		'h1',
-		null,
-		'Hello World!'
-	), document.getElementById('example'));
+	const TimerCompoment = __webpack_require__(182);
+
+	ReactDOM.render(React.createElement(TimerCompoment, null), document.getElementById('root'));
 
 /***/ }),
 /* 1 */
@@ -21753,6 +21750,120 @@
 
 	module.exports = ReactDOMInvalidARIAHook;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
+
+/***/ }),
+/* 182 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	const React = __webpack_require__(1);
+	const Header = __webpack_require__(183);
+	// const ButtonGroup = require('./buttongroup.jsx')
+	// <ButtonGroup startTimer = {this.startTimer} />
+
+	class Timer extends React.Component {
+		render() {
+			if (this.props.timeLeft == null || this.props.timeLeft == 0) {
+				return React.createElement('div', null);
+			}
+			return React.createElement(
+				'h1',
+				null,
+				'timeLeft:',
+				this.props.timeLeft
+			);
+		}
+	}
+
+	class Button extends React.Component {
+		constructor(props) {
+			super(props);
+			this.startTimer = this.startTimer.bind(this); // this.startTime: function(){}
+		}
+
+		startTimer(event) {
+			//[event: object]
+			// console.log("this.props.startTimer:" + this.props.time)
+			// this.props.starTimer is function(){}
+			return this.props.startTimer(this.props.time);
+		}
+
+		render() {
+			// console.log("this.startTimer:" + this.startTimer)
+			return (
+				// this.startTimer is function(){}
+				React.createElement(
+					'button',
+					{
+						type: 'button', onClick: this.startTimer },
+					this.props.time,
+					' seconds'
+				)
+			);
+		}
+	}
+
+	module.exports = class TimerCompoment extends React.Component {
+
+		constructor(props) {
+			super(props);
+			this.state = { timeLeft: null, timer: null };
+			this.startTimer = this.startTimer.bind(this);
+		}
+
+		// this.props.startTimer(this.props.time  + 0)
+		startTimer(timeLeft) {
+			clearInterval(this.state.timer);
+			// console.log("1 timeLeft:" + this.state.timeLeft + ", timer:" + this.state.timer);	    
+			let timer = setInterval(() => {
+				var timeLeft = this.state.timeLeft - 1;
+				console.log('2: Inside of setInterval this.state.timeLeft :' + this.state.timeLeft);
+				if (timeLeft == 0) {
+					clearInterval(timer);
+				}
+				this.setState({ timeLeft: timeLeft });
+			}, 1000);
+			// console.log('1: After setInterval')
+			console.log('3: Outsite of setInterval timeLeft:' + timeLeft);
+			return this.setState({ timeLeft: timeLeft,
+				timer: timer });
+		}
+
+		pageHeader(title) {
+			return `${title}`;
+		}
+
+		render() {
+			return React.createElement(
+				'div',
+				null,
+				React.createElement(Header, { title: this.pageHeader("Timer") }),
+				React.createElement(
+					'div',
+					{ role: 'group' },
+					React.createElement(Button, { time: '5', startTimer: this.startTimer }),
+					React.createElement(Button, { time: '10', startTimer: this.startTimer }),
+					React.createElement(Button, { time: '15', startTimer: this.startTimer })
+				),
+				React.createElement(Timer, { timeLeft: this.state.timeLeft })
+			);
+		}
+	};
+
+/***/ }),
+/* 183 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	const React = __webpack_require__(1);
+
+	module.exports = class HeaderCompoment extends React.Component {
+		render() {
+			return React.createElement(
+				'h2',
+				null,
+				this.props.title
+			);
+		}
+	};
 
 /***/ })
 /******/ ]);
