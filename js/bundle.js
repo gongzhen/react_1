@@ -47,8 +47,11 @@
 	const React = __webpack_require__(1);
 	const ReactDOM = __webpack_require__(36);
 	const TimerCompoment = __webpack_require__(182);
+	const FilterList = __webpack_require__(186);
 
 	ReactDOM.render(React.createElement(TimerCompoment, null), document.getElementById('root'));
+
+	ReactDOM.render(React.createElement(FilterList, null), document.getElementById('App-intro'));
 
 /***/ }),
 /* 1 */
@@ -21868,6 +21871,52 @@
 				null,
 				'timeLeft:',
 				this.props.timeLeft
+			);
+		}
+	};
+
+/***/ }),
+/* 186 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	const React = __webpack_require__(1);
+	const ReactDOM = __webpack_require__(36);
+
+	module.exports = class FilterList extends React.Component {
+		constructor(props) {
+			super(props);
+			this.state = {
+				filterBy: ''
+			};
+		}
+
+		updateFilter(ev) {
+			console.log(ev.target);
+			console.log(ev.target.value);
+			this.setState({ filterBy: ev.target.value });
+		}
+
+		render() {
+			const { filterBy } = this.state;
+			const frameworks = ['React', 'Angular', 'Vue', 'Ember'];
+			// simple input box and our list componet
+			const List = ({ items, filterBy }) => {
+				return React.createElement(
+					'ul',
+					null,
+					items.filter(item => item.indexOf(filterBy) > -1).map((item, i) => React.createElement(
+						'li',
+						{ key: i },
+						item
+					))
+				);
+			};
+
+			return React.createElement(
+				'div',
+				null,
+				React.createElement('input', { type: 'text', onChange: ev => this.updateFilter(ev) }),
+				React.createElement(List, { items: frameworks, filterBy: filterBy })
 			);
 		}
 	};
