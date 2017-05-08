@@ -1,12 +1,13 @@
 const React = require('react');
 const {Component} = require('react')
 const {createStore} = require('redux')
+const {Provider, connect} = require('react-redux')
 
 const FRAMEWORKS = ['React', 'Angular', 'Vue', 'Ember']
 
 // ACTION: CREATORS
 function setFilter(by) {
-	return {type:'SET_FILTER', by}
+	return { type:'SET_FILTER', by }
 }
 
 // REDUCER
@@ -36,45 +37,51 @@ const mapStateToProps = (state) => {
 	}
 }
 
-module.exports = class FilterList extends React.Component {
-	constructor(props) {
-	  super()
-	  // default state
-	  this.state = store.getState()
-	  // function that will execute every time the state changes.
-	  this.unsubscribe = store.subscribe(() => {
-	  	this.setState(store.getState())
-	  })
+const mapDispatchToProps = (dispatch) => {
+	return {
+		updateFilter: (ev) => dispatch(setFilter(ev.target.value))
 	}
+}
 
-	componentWillUnmount() {
-		this.unsubscribe()
-	}
 
-	updateFilter(ev) {
-		store.dispatch(setFilter(ev.target.value))
-	}
-
+class FilterList extends React.Component {
 	render() {
-		const {filterBy} = this.state
-		// simple input box and our list componet
-		const List = ({ items, filterBy }) => {
-			return(
-					<ul>
-						{
-							items
-							.filter(item => item.indexOf(filterBy) > -1)
-							.map((item, i) => <li key ={i}>{item}</li>)
-						}
-					</ul>
-				)
-		}
-
+		const {filterBy, updateFilter} = this.props
 		return(
 			<div>
-				<input type = "text" onChange = {(ev) => this.updateFilter(ev) }/>
+				<input type = "text" onChange = { updateFilter }/>
 				<List items = {FRAMEWORKS} filterBy = {filterBy} />
 			</div>
 		)
 	}
 }
+
+// Very Important
+FilterList = connect(mapStateToProps, mapDispatchToProps)(FilterList)
+
+const List = ({ items, filterBy }) => {
+	return (
+		<ul>
+			{
+				items
+				.filter(item => item.indexOf(filterBy) > -1)
+				.map((item, i) => <li key = {i}>{item}</li>)
+			}
+		</ul>
+		)
+}
+
+module.exports = class App extends React.Component {
+	render() {
+		return (
+			<Provider store={store}>
+	          <div className="App-header">
+	            <h2>Welcome to React</h2>
+	          	<FilterList />	            
+	          </div>			
+
+			</Provider>
+			)
+	}
+}
+

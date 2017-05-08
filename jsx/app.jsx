@@ -1,7 +1,7 @@
 const React = require('react')
 const ReactDOM = require('react-dom')
 const TimerCompoment = require('./timer.jsx')
-const FilterList = require('./filteredlist.jsx');
+const App = require('./filteredlist.jsx');
 
 ReactDOM.render(
   <TimerCompoment />,
@@ -9,6 +9,6 @@ ReactDOM.render(
 );
 
 ReactDOM.render(
-  <FilterList />,
+  <App />,
   document.getElementById('App-intro')  
 );
